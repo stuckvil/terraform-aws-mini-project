@@ -21,8 +21,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
 
-         script: |
-           cd terraform-aws-mini-project/nodejs-devops-project
-           git pull origin main
-           docker-compose down
-           docker-compose up -d --build
+          script: |
+            cd terraform-aws-mini-project/nodejs-devops-project
+            git pull origin main
+            docker compose down
+            docker compose up -d --build
