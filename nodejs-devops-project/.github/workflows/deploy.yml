@@ -1,0 +1,27 @@
+name: Deploy Node App
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    run-on: ubuntu-latest
+
+    steps:
+      -  name: Checkout code
+         user: actions/checkout@v4
+
+      -  name: SSH into EC2 and deploy
+         user: appleboy/ssh-action@master
+
+         with:
+           host: 3.14.15.222
+           username: ubuntu
+           key: ${{ secret.EC2_KEY }}
+
+          script: |
+            cd ~/nodejs-devops-project
+            git pull origin main
+            docker-compose down
+            docker-compose up --build -d
