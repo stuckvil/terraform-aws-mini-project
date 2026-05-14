@@ -1,5 +1,6 @@
-name: Deploy Node App
-on:
+name: Deploy to EC2
+
+no:
   push:
     branches:
       - main
@@ -8,20 +9,18 @@ jobs:
   deploy:
     run-on: ubuntu-latest
 
-    steps:
-      -  name: Checkout code
-         user: actions/checkout@v4
+   steps:
+   - name: Checkout code
+     uses: actions/checkout@v3
 
-      -  name: SSH into EC2 and deploy
-         user: appleboy/ssh-action@master
-
-         with:
-           host: 3.14.15.222
-           username: ubuntu
-           key: ${{ secret.EC2_KEY }}
-
-          script: |
-            cd ~/nodejs-devops-project
-            git pull origin main
-            docker-compose down
-            docker-compose up --build -d
+  - name: SSH into EC2 and deploy
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ secrets.EC2_HOST }}
+      username: ${{ secret.EC2_USER }}
+      key: ${{ secrets.EC2_KEY }}
+      script: |
+        cd terraform-aws-mini-project/nodejs-devops-project
+        git pull origin main
+        docker-compose down
+        docker-compose up -d --build
