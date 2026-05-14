@@ -23,6 +23,9 @@ jobs:
           script: |
             cd terraform-aws-mini-project/nodejs-devops-project
             git reset --hard
+            rm -rf node_modules
+            rm -rf package-lock.json
+            git pull origin main
             git pull origin main
             docker stop $(docker ps -aq) || true
             docker rm $(docker ps -aq) || true
