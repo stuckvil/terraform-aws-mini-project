@@ -23,6 +23,9 @@ jobs:
 
           script: |
             cd terraform-aws-mini-project/nodejs-devops-project
+            git reset --hard
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build
+            docker stop $(docker ps -aq) || true
+            docker rm $(docker ps -aq) || true
+            docker build -t nodeapp .
+            docker run -d -p 3000:3000 nodeapp
