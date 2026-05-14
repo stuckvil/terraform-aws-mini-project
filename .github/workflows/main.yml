@@ -31,4 +31,5 @@ jobs:
             docker rm $(docker ps -aq) || true
             docker system prune -f
             docker build -t nodeapp .
+            sudo fuser -k 3000/tcp || true
             docker run -d -p 3000:3000 nodeapp
