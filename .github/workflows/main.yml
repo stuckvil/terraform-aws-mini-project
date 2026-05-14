@@ -27,7 +27,8 @@ jobs:
             rm -rf package-lock.json
             git pull origin main
             git pull origin main
-            docker stop $(docker ps -aq) || true
+            docker stop $(docker ps -q) || true
             docker rm $(docker ps -aq) || true
+            docker system prune -f
             docker build -t nodeapp .
             docker run -d -p 3000:3000 nodeapp
